@@ -1,11 +1,14 @@
 package jm.task.core.jdbc;
 
 //import com.mysql.fabric.jdbc.FabricMySQLDriver;
+//String url = "jdbc:mysql://localhost/store?serverTimezone=Europe/Moscow&useSSL=false";
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.service.UserService;
 import jm.task.core.jdbc.service.UserServiceImpl;
 import jm.task.core.jdbc.util.Util;
+import org.hibernate.Session;
+import org.hibernate.HibernateException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,15 +20,15 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         UserServiceImpl userService = new UserServiceImpl();
-
         userService.createUsersTable();
-//        userService.saveUser("1", "2", (byte) 10);
-//        userService.saveUser("2", "2", (byte) 11);
-//        userService.saveUser("3", "2", (byte) 12);
-//        userService.saveUser("4", "2", (byte) 13);
-//        System.out.println(userService.getAllUsers());
-//        userService.cleanUsersTable();
-//        userService.dropUsersTable();
+        userService.saveUser("ivan", "zar", (byte) 10);
+        userService.removeUserById(5);
+        userService.saveUser("igor", "zh", (byte) 11);
+        userService.saveUser("3", "2", (byte) 12);
+        userService.saveUser("4", "2", (byte) 13);
+        System.out.println(userService.getAllUsers());
+        userService.cleanUsersTable();
+        userService.dropUsersTable();
 
     }
 }

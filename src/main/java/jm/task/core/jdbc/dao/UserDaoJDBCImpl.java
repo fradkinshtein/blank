@@ -58,7 +58,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void removeUserById(long id) {
         String sqlCommand = "DELETE FROM users WHERE id";
         try (Connection connection = Util.getMySQLConnection();
-                Statement statement = connection.createStatement()) {
+             Statement statement = connection.createStatement()) {
 
             statement.execute(sqlCommand);
         } catch (SQLException e) {
@@ -70,7 +70,7 @@ public class UserDaoJDBCImpl implements UserDao {
         List<User> arr = new ArrayList<>();
         String sqlCommand = "SELECT * FROM users";
         try (Connection connection = Util.getMySQLConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
+             PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
              ResultSet resultSet = preparedStatement.executeQuery(sqlCommand)) {
             while (resultSet.next()) {
                 User user = new User();
@@ -91,7 +91,7 @@ public class UserDaoJDBCImpl implements UserDao {
         String sqlCommand = "DELETE FROM users where id is not null ";
 
         try (Connection connection = Util.getMySQLConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand)) {
             preparedStatement.executeUpdate(sqlCommand);
         } catch (SQLException e) {
 

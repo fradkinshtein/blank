@@ -9,9 +9,6 @@ import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
 
-    // private final Connection connection = Util.getMySQLConnection();
-    // private static Connection connection = null;
-
     public UserDaoJDBCImpl() {
     }
 
@@ -21,12 +18,11 @@ public class UserDaoJDBCImpl implements UserDao {
                 "name VARCHAR(25), lastName VARCHAR(40), " +
                 "age SMALLINT NOT NULL, PRIMARY KEY (id))";
 
-
         try (Connection connection = Util.getMySQLConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand)) {
             preparedStatement.executeUpdate(sqlCommand);
         } catch (SQLException e) {
-            // e.printStackTrace();
+            System.out.println("Mistake during table creation");
         }
     }
 
@@ -40,9 +36,9 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        String sqlCommand = "INSERT INTO users (name, lastName, age) VALUES (?, ?, ?)";
+
         try (Connection connection = Util.getMySQLConnection();
-             PreparedStatement prepareStatement = connection.prepareStatement(sqlCommand)) {
+             PreparedStatement prepareStatement = connection.prepareStatement("INSERT INTO users (name, lastName, age) VALUES (?, ?, ?)")) {
 
             prepareStatement.setString(1, name);
             prepareStatement.setString(2, lastName);
@@ -56,13 +52,12 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void removeUserById(long id) {
-        String sqlCommand = "DELETE FROM users WHERE id";
-        try (Connection connection = Util.getMySQLConnection();
+         try (Connection connection = Util.getMySQLConnection();
              Statement statement = connection.createStatement()) {
 
-            statement.execute(sqlCommand);
+            statement.execute("DELETE FROM users WHERE id");
         } catch (SQLException e) {
-
+             System.out.println("Mistake removing user by Id");
         }
     }
 

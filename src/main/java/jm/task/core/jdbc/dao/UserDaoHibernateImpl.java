@@ -6,16 +6,10 @@ import jm.task.core.jdbc.util.Util;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.mapping.Table;
 
-import javax.persistence.*;
-
-import javax.persistence.Entity;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import java.sql.*;
 
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,12 +25,11 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
 
     public void createUsersTable() {
-        String sqlCommand = "CREATE TABLE if not exists users (id BIGINT NOT NULL AUTO_INCREMENT, name VARCHAR(25), lastName VARCHAR(40), age SMALLINT NOT NULL, PRIMARY KEY (id))";
+
         try (Session session = Util.getSessionFactory().openSession()) {
             session.beginTransaction();
-            session.createSQLQuery(sqlCommand).executeUpdate();
+            session.createSQLQuery("CREATE TABLE if not exists users (id BIGINT NOT NULL AUTO_INCREMENT, name VARCHAR(25), lastName VARCHAR(40), age SMALLINT NOT NULL, PRIMARY KEY (id))").executeUpdate();
             session.getTransaction().commit();
-            //System.out.println("Added");
         } catch (HibernateException e) {
             System.out.println("something wrong with table creation");
         }
@@ -44,10 +37,9 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void dropUsersTable() {
-        String sqlCommand = "DROP TABLE users";
         try (Session session = Util.getSessionFactory().openSession()) {
             session.beginTransaction();
-            session.createSQLQuery(sqlCommand).executeUpdate();
+            session.createSQLQuery("DROP TABLE users").executeUpdate();
             session.getTransaction().commit();
         } catch (HibernateException e) {
             System.out.println("Problem with deletion");
@@ -69,10 +61,9 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void removeUserById(long id) {
-        String sqlCommand = "DELETE FROM users WHERE id =" + id;
         try (Session session = Util.getSessionFactory().openSession()) {
             session.beginTransaction();
-            session.createSQLQuery(sqlCommand).executeUpdate();
+            session.createSQLQuery("DELETE FROM users WHERE id =" + id).executeUpdate();
             session.getTransaction().commit();
         } catch (HibernateException e) {
             System.out.println("Problem removing user with id =" + id);
@@ -107,10 +98,9 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
-        String sqlCommand = "DELETE FROM users where id is not null";
         try (Session session = Util.getSessionFactory().openSession()) {
             session.beginTransaction();
-            session.createSQLQuery(sqlCommand).executeUpdate();
+            session.createSQLQuery("DELETE FROM users where id is not null").executeUpdate();
             session.getTransaction().commit();
         } catch (HibernateException e) {
             System.out.println("Problem with deletion");
